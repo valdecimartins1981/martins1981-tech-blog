@@ -3,11 +3,13 @@ import { ARTICLES, Article } from "@/data/articles";
 import { useParams, Link } from "wouter";
 import { format } from "date-fns";
 import NotFound from "./not-found";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { ReadingProgress } from "@/components/ReadingProgress";
 
 export default function ArticleDetail() {
   const { slug } = useParams();
   const article = ARTICLES.find(a => a.slug === slug);
+  const articleRef = useRef<HTMLElement>(null);
 
   // Scroll to top on load
   useEffect(() => {
@@ -24,7 +26,8 @@ export default function ArticleDetail() {
 
   return (
     <Layout>
-      <article className="min-h-screen pb-20">
+      <ReadingProgress targetRef={articleRef} />
+      <article ref={articleRef} className="min-h-screen pb-20">
         {/* Article Header */}
         <header className="px-6 sm:px-10 lg:px-16 pt-16 pb-12 max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-8 font-mono text-sm uppercase font-bold tracking-widest">
