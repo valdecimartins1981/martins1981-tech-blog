@@ -11,6 +11,7 @@ import ArticleDetail from "@/pages/ArticleDetail";
 import Category from "@/pages/Category";
 import About from "@/pages/About";
 import Newsletter from "@/pages/Newsletter";
+import Search from "@/pages/Search";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/categories/:category" component={Category} />
       <Route path="/about" component={About} />
       <Route path="/newsletter" component={Newsletter} />
+      <Route path="/search" component={Search} />
       <Route component={NotFound} />
     </Switch>
   );

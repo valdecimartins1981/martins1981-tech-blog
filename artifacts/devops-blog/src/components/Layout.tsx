@@ -1,6 +1,39 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { useState, useEffect, useRef } from "react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [, setLocation] = useLocation();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      inputRef.current?.focus();
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen((v) => !v);
+      }
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = value.trim();
+    if (!q) return;
+    setOpen(false);
+    setValue("");
+    setLocation(`/search?q=${encodeURIComponent(q)}`);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
       {/* Brutalist Header */}
@@ -14,7 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </Link>
 
-        <nav className="flex flex-wrap gap-x-8 gap-y-4 font-mono text-xs uppercase tracking-wider font-bold">
+        <nav className="flex flex-wrap items-center gap-x-8 gap-y-4 font-mono text-xs uppercase tracking-wider font-bold">
           <Link href="/articles" className="hover:text-primary transition-colors">Articles</Link>
           <div className="flex flex-col gap-1 hidden md:flex">
             <Link href="/categories/sre" className="hover:text-primary transition-colors">SRE</Link>
@@ -26,8 +59,61 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
           <Link href="/about" className="hover:text-primary transition-colors">About</Link>
           <Link href="/newsletter" className="text-primary hover:text-white transition-colors">Newsletter</Link>
+          <button
+            onClick={() => setOpen(true)}
+            className="flex items-center gap-2 border-[2px] border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"
+            aria-label="Open search"
+            data-testid="button-open-search"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <span>Search</span>
+            <span className="text-[9px] text-muted-foreground border border-border/60 px-1 ml-1">⌘K</span>
+          </button>
         </nav>
       </header>
+
+      {/* Search overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-start justify-center pt-[12vh] px-6"
+          onClick={() => setOpen(false)}
+        >
+          <form
+            onSubmit={submit}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-3xl border-[3px] border-primary bg-background"
+          >
+            <div className="flex items-center px-6 py-5 border-b-[3px] border-primary">
+              <span className="font-mono text-xs uppercase tracking-widest text-primary mr-4">
+                /search
+              </span>
+              <input
+                ref={inputRef}
+                type="search"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                placeholder="Search SIGNAL…"
+                className="flex-1 bg-transparent text-2xl md:text-3xl font-bold outline-none placeholder:text-muted-foreground/60"
+                data-testid="input-quick-search"
+              />
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground border border-border px-2 py-1 ml-4 hover:text-primary hover:border-primary transition-colors"
+              >
+                ESC
+              </button>
+            </div>
+            <div className="px-6 py-4 flex items-center justify-between font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              <span>Press Enter to search the archive</span>
+              <span className="text-primary">↵</span>
+            </div>
+          </form>
+        </div>
+      )}
 
       <main className="flex-1">
         {children}
@@ -60,7 +146,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <ul className="space-y-3 font-sans font-medium">
               <li><Link href="/about" className="hover:text-primary transition-colors">About the Publication</Link></li>
               <li><Link href="/newsletter" className="hover:text-primary transition-colors">The Weekly Pager</Link></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Pitch an Article</a></li>
+              <li><Link href="/search" className="hover:text-primary transition-colors">Search the Archive</Link></li>
               <li><a href="#" className="hover:text-primary transition-colors">RSS Feed</a></li>
             </ul>
           </div>
