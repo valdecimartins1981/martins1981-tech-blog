@@ -57,7 +57,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/categories/platform" className="hover:text-primary transition-colors">Platform</Link>
             <Link href="/categories/incidents" className="hover:text-primary transition-colors">Incidents</Link>
           </div>
-          <Link href="/about" className="hover:text-primary transition-colors">About</Link>
+          <Link href="/about" className="hover:text-primary transition-colors">SOBRE MIM</Link>
           <Link href="/newsletter" className="text-primary hover:text-white transition-colors">Newsletter</Link>
           <button
             onClick={() => setOpen(true)}
@@ -74,7 +74,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </button>
         </nav>
       </header>
-
       {/* Search overlay */}
       {open && (
         <div
@@ -114,11 +113,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </form>
         </div>
       )}
-
       <main className="flex-1">
         {children}
       </main>
-
       {/* Heavy Editorial Footer */}
       <footer className="border-t-[3px] border-border mt-20 bg-card py-16 px-6 sm:px-10 lg:px-16">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
