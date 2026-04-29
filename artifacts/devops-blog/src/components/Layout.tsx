@@ -39,9 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Brutalist Header */}
       <header className="border-b-[3px] border-border py-4 px-6 sm:px-10 lg:px-16 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 sticky top-0 bg-background z-50">
         <Link href="/" className="group inline-block">
-          <div className="text-4xl sm:text-5xl font-black tracking-tighter text-primary group-hover:text-foreground transition-colors duration-200">
-            SIGNAL
-          </div>
+          <div className="text-4xl sm:text-5xl font-black tracking-tighter text-primary group-hover:text-foreground transition-colors duration-200">Martins1981</div>
           <div className="text-[10px] sm:text-xs font-mono tracking-widest uppercase text-muted-foreground group-hover:text-primary transition-colors">
             For engineers running prod
           </div>
