@@ -48,7 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </Link>
 
         <nav className="flex flex-wrap items-center gap-x-8 gap-y-4 font-mono text-xs uppercase tracking-wider font-bold">
-          <Link href="/articles" className="hover:text-primary transition-colors">Articles</Link>
+          <Link href="/articles" className="hover:text-primary transition-colors">ARTIGOS</Link>
           <div className="flex flex-col gap-1 hidden md:flex">
             <Link href="/categories/sre" className="hover:text-primary transition-colors">SRE</Link>
             <Link href="/categories/devops" className="hover:text-primary transition-colors">DevOps</Link>
