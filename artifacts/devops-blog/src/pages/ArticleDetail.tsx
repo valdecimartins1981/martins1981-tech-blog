@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import NotFound from "./not-found";
 import { useEffect, useRef } from "react";
 import { ReadingProgress } from "@/components/ReadingProgress";
+import { ShareButton } from "@/components/ShareButton";
 
 export default function ArticleDetail() {
   const { slug } = useParams();
@@ -48,14 +49,17 @@ export default function ArticleDetail() {
             {article.subtitle}
           </p>
 
-          <div className="flex items-center gap-4 py-6 border-y-[3px] border-border">
-            <div className="w-12 h-12 bg-primary rounded-none flex items-center justify-center font-bold text-background text-xl">
-              {article.author.name.charAt(0)}
+          <div className="flex items-center justify-between gap-4 py-6 border-y-[3px] border-border flex-wrap">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-primary rounded-none flex items-center justify-center font-bold text-background text-xl">
+                {article.author.name.charAt(0)}
+              </div>
+              <div>
+                <div className="font-bold text-lg">{article.author.name}</div>
+                <div className="font-mono text-xs uppercase text-muted-foreground tracking-widest">{article.author.role}</div>
+              </div>
             </div>
-            <div>
-              <div className="font-bold text-lg">{article.author.name}</div>
-              <div className="font-mono text-xs uppercase text-muted-foreground tracking-widest">{article.author.role}</div>
-            </div>
+            <ShareButton title={article.title} />
           </div>
         </header>
 
